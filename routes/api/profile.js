@@ -29,14 +29,12 @@ router.get('/me', auth, async(req, res) => {
 });
 
 // @route   Post api/profile
-// @desc    Creat | Update user profile
+// @desc    Create | Update user profile
 // @access  Private
 
 router.post('/', [ auth, [
-  check('status', 'status is required')
-  .not()
-  .isEmpty(),
-  check('skills', 'skills is required')
+  check('status', 'status is required').not().isEmpty(),
+  check('skills', 'skills is required').not().isEmpty()
   ]
 ],
 async (req, res) => {
@@ -82,13 +80,24 @@ async (req, res) => {
   if (instagram) profileFields.social.instagram = instagram;
 
   try {
+    let profile = await Profile.findOne({ user: req.user.id});
     // Using upsert option (creates new doc if no match is found):
-    let profile = await Profile.findOneAndUpdate(
-      { user: req.user.id },
-      { $set: profileFields },
-      { new: true, upsert: true }
-    );
-    res.json(profile);
+    if (profile) {
+      // update
+      profile = await Profile.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: profileFields },
+        { new: true, upsert: true }
+      );
+
+      return res.json(profile);
+    }
+
+    // Create
+    profile = new Profile(profileFields);
+
+    await profile.save();
+    res.json(profile)
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -102,7 +111,7 @@ async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const profiles = await Profile.find().populate(user,[
+    const profiles = await Profile.find().populate('user',[
       'name',
       'avatar',
         ])

@@ -11,8 +11,7 @@ const User = require('../../models/User');
 // @route    POST api/users
 // @desc     Register user
 // @access   Public
-router.post(
-  '/',
+router.post('/',
   [
     check('name', 'Name is required')
       .not()
@@ -24,8 +23,10 @@ router.post(
     ).isLength({ min: 6 })
   ],
   async (req, res) => {
+    console.log("body",req.body)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log(req.body)
       return res.status(400).json({ errors: errors.array() });
     }
 
