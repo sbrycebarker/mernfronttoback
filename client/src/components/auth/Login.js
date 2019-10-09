@@ -29,7 +29,8 @@ const Login = () => {
             name="email"
             value={email}
             onChange={e => onChange(e)} 
-            required/>
+            required
+            />
           </div>
           <div className="form-group">
             <input
