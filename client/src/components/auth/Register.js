@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 // import axios from 'axios';
 
-const Register = ( props ) => {
+const Register = ( props, register ) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -23,9 +23,9 @@ const Register = ( props ) => {
     const onSubmit = async e => {
       e.preventDefault();
       if (password !== password2) {
-        props.setAlert('Passwords do not match', 'danger');
+        setAlert('Passwords do not match', 'danger');
       } else {
-        props.register({name, email, password});
+        register({name, email, password});
       }
     };
 
