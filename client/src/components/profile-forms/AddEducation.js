@@ -17,17 +17,25 @@ const AddEducation = ({ addEducation, history }) => {
 
   const [toDateDisabled, toggleDisabled] = useState(false);
 
-  const { school, degree, fieldofstudy, from, to, current, description } = formData;
+  const {
+    school,
+    degree,
+    fieldofstudy,
+    from,
+    to,
+    current,
+    description
+  } = formData;
 
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Add A School</h1>
+      <h1 className='large text-primary'>Add Your Education</h1>
       <p className='lead'>
-        <i className='fas fa-code-branch' /> Add any school or bootcamp
-        that you have attended
+        <i className='fas fa-code-branch' /> Add any school or bootcamp that you
+        have attended
       </p>
       <small>* = required field</small>
       <form
@@ -38,11 +46,11 @@ const AddEducation = ({ addEducation, history }) => {
         }}
       >
         <div className='form-group'>
-          <input
+        <input
             type='text'
-            placeholder='* Degree'
-            name='degree'
-            value={degree}
+            placeholder='* School or Bootcamp'
+            name='school'
+            value={ school }
             onChange={e => onChange(e)}
             required
           />
@@ -50,9 +58,9 @@ const AddEducation = ({ addEducation, history }) => {
         <div className='form-group'>
           <input
             type='text'
-            placeholder='* School or Bootcamp'
-            name='school'
-            value={school}
+            placeholder='* Degree or Certificate'
+            name='degree'
+            value={degree}
             onChange={e => onChange(e)}
             required
           />
@@ -87,7 +95,7 @@ const AddEducation = ({ addEducation, history }) => {
                 toggleDisabled(!toDateDisabled);
               }}
             />{' '}
-            Current Job
+            Current School
           </p>
         </div>
         <div className='form-group'>
@@ -105,7 +113,7 @@ const AddEducation = ({ addEducation, history }) => {
             name='description'
             cols='30'
             rows='5'
-            placeholder='Description of Program'
+            placeholder='Program Description'
             value={description}
             onChange={e => onChange(e)}
           />
