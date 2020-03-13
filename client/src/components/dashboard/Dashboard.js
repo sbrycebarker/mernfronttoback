@@ -5,10 +5,11 @@ import PropTypes from 'prop-types';
 import Spinner from "../layouts/Spinner";
 import Experience from "./Experience.js";
 import Education from "./Education.js";
-import { getCurrentProfile } from '../../actions/profile';
+import { getCurrentProfile, deleteAccount } from '../../actions/profile';
 import DashboardActions from './DashboardActions';
 
 const Dashboard = ({ 
+    deleteAccount,
     getCurrentProfile,
     auth: { user }, 
     profile: { profile, loading } 
@@ -30,6 +31,14 @@ const Dashboard = ({
                  <DashboardActions />
                  <Experience experience={profile.experience}/>
                  <Education education={profile.education}/>
+
+                 <div className="my-2">
+
+                    <button className="btn btn-danger" onClick={() => deleteAccount()}>
+                        <i className="fas fa-use-minus"></i>Delete Account
+                    </button>
+
+                 </div>
              </Fragment>
          ) : (
              <Fragment>
@@ -45,6 +54,7 @@ const Dashboard = ({
 
 Dashboard.propTypes = {
     getCurrentProfile: PropTypes.func.isRequired,
+    deleteAccount: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
     profile: PropTypes.object.isRequired
 }
@@ -56,4 +66,6 @@ const mapStateToProps = state => ({
 
 
 
-export default connect(mapStateToProps, { getCurrentProfile })(Dashboard);
+export default connect( 
+    mapStateToProps, { getCurrentProfile, deleteAccount }
+)(Dashboard);
