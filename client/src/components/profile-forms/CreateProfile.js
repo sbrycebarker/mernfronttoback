@@ -87,11 +87,11 @@ const CreateProfile = ({createProfile, history}) => {
         <div className="form-group">
           <input type="text" placeholder="Location" name="location" value={location}
           onChange={e => onChange(e)}  />
-          <small class="form-text">
+          <small className="form-text">
             City & state suggested (eg. Boston, MA)
           </small>
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <input type="text" placeholder="* Skills" name="skills" value={skills}
           onChange={e => onChange(e)} />
           <small className="form-text">
