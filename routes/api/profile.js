@@ -5,6 +5,8 @@ const config = require('config');
 const auth = require('../../middleware/auth');
 const {check, validationResult} = require('express-validator');
 
+const normalize = require('normalize-url');
+
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 const Post = require('../../models/Post');
@@ -60,7 +62,18 @@ async (req, res) => {
   } = req.body;
 
   //  Build profile object
-  const profileFields = {};
+  const profileFields = {
+    user: req.user.id,
+    company,
+    location,
+    website: website === '' ? '' : normalize(website, { forceHttps: true }),
+    bio,
+    skills: Array.isArray(skills)
+      ? skills
+      : skills.split(',').map(skill => ' ' + skill.trim()),
+    status,
+    githubusername
+  };
   profileFields.user = req.user.id;
   if (company) profileFields.company = company;
   if (website) profileFields.website = website;
@@ -149,9 +162,9 @@ router.get('/user/:user_id', async (req, res) => {
 
 router.delete('/', auth, async (req, res) => {
   try {
-    // remove users posts
+    // remove users post
 
-    await Posts.deleteMany({ user: req.user._id })
+    await Post.deleteMany({ user: req.user._id })
 
     // Remove profile
     await Profile.findOneAndRemove({ user: req.user.id})
