@@ -1,13 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const ProfileTop = ({ profile:
-    status,
-    company, 
-    location,
-    website,
-    social,
-    user: { name, avatar }
+const ProfileTop = ({ 
+    profile: { 
+        status,
+        company, 
+        location,
+        website,
+        social,
+        user: { name, avatar }
+    }
 }) => {
     return (
        <div className="profile-top bg-primary p-2">
@@ -17,12 +19,12 @@ const ProfileTop = ({ profile:
            alt=""
          />
          <h1 className="large">{ name }</h1>
-            <p class="lead">{ status } { company && <span> at { company } </span>}</p>
+            <p className="lead">{ status } { company && <span> at { company } </span>}</p>
             <p>{ location && <span> { location }</span> }</p>
          <div className="icons my-1">
              {
                  website && ( 
-                <a href="#" target="_blank" rel="noopener noreferrer">
+                <a href={website} target="_blank" rel="noopener noreferrer">
                     <i className="fas fa-globe fa-2x"></i>
                 </a>
                  )
@@ -50,7 +52,7 @@ const ProfileTop = ({ profile:
              }
              {
                  social && social.youtube && (
-                <a href={youtube} target="_blank" rel="noopener noreferrer">
+                <a href={social.youtube} target="_blank" rel="noopener noreferrer">
                     <i className="fab fa-youtube fa-2x"></i>
                 </a>
                  )

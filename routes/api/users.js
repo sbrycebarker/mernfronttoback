@@ -5,13 +5,15 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
+const normalize = require('normalize-url');
 
 const User = require('../../models/User');
 
 // @route    POST api/users
 // @desc     Register user
 // @access   Public
-router.post('/',
+router.post(
+  '/',
   [
     check('name', 'Name is required')
       .not()
@@ -23,10 +25,8 @@ router.post('/',
     ).isLength({ min: 6 })
   ],
   async (req, res) => {
-    // console.log("body",req.body)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      console.log(req.body)
       return res.status(400).json({ errors: errors.array() });
     }
 
@@ -41,11 +41,14 @@ router.post('/',
           .json({ errors: [{ msg: 'User already exists' }] });
       }
 
-      const avatar = gravatar.url(email, {
-        s: '200',
-        r: 'pg',
-        d: 'mm'
-      });
+      const avatar = normalize(
+        gravatar.url(email, {
+          s: '200',
+          r: 'pg',
+          d: 'mm'
+        }),
+        { forceHttps: true }
+      );
 
       user = new User({
         name,
