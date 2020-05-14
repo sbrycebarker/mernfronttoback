@@ -11,23 +11,24 @@ const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 const Post = require('../../models/Post');
 
-// @route   GET api/profile/me
-// @desc    Get current users profile
-// @access  Private
-
-router.get('/me', auth, async(req, res) => {
+// @route    GET api/profile/me
+// @desc     Get current users profile
+// @access   Private
+router.get('/me', auth, async (req, res) => {
   try {
-    const profile = await Profile.findOne({user: req.user.id}).populate('user',
-    ['name', 'avatar']);
+    const profile = await Profile.findOne({
+      user: req.user.id
+    });
 
-  if(!profile) {
-    return res.status(400).json({ msg: 'There is no profile for this user'})
-  }
+    if (!profile) {
+      return res.status(400).json({ msg: 'There is no profile for this user' });
+    }
 
-  res.json(profile)
-  } catch (err){
+    // only populate from user document if profile exists
+    res.json(profile.populate('user', ['name', 'avatar']));
+  } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error')
+    res.status(500).send('Server Error');
   }
 });
 
@@ -125,31 +126,31 @@ async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const profiles = await Profile.find().populate('user',[
-      'name',
-      'avatar',
-        ])
-        res.json(profiles)
+    const profiles = await Profile.find().populate('user', ['name', 'avatar']);
+    res.json(profiles);
   } catch (err) {
-    console.log(err.message)
-    res.status(500).send('server error')
+    console.error(err.message);
+    res.status(500).send('Server Error');
   }
-})
+});
 
 // @route   Get api/profile/user/:user_id
 // @desc    Get profile by user ID
 // @access  Public
 
 router.get('/user/:user_id', async (req, res) => {
+  console.log("running api/profile/user/:user_id")
   try {
-    const profile = await Profile.findOne({ user: req.params.user_id }).populate(user,['name','avatar']);
+    const profile = await Profile.findOne({ user: req.params.user_id }).populate('user', ['name','avatar']);
 
     if(!profile) return res.status(400).json({msg: 'Profile not found'})
 
-    res.json(profiles)
+    return res.json(profile)
+    
   } catch (err) {
-    console.error(err.message)
+    console.error(err.message, "error from api/profile/user/:user_id")
     if (err.kind == 'ObjectId') {
+      console.log("error in profile.js")
       return res.status(400).json({msg: 'Profile not found'})
     }
     res.status(500).send('server error')
