@@ -69,12 +69,12 @@ async (req, res) => {
     location,
     website: website === '' ? '' : normalize(website, { forceHttps: true }),
     bio,
-    skills: Array.isArray(skills)
-      ? skills
-      : skills.split(',').map(skill => ' ' + skill.trim()),
+    skills: Array.isArray(skills) ? skills : skills.split(',').map(skill => ' ' + skill.trim()),
     status,
     githubusername
   };
+
+
   profileFields.user = req.user.id;
   if (company) profileFields.company = company;
   if (website) profileFields.website = website;
@@ -83,8 +83,9 @@ async (req, res) => {
   if (status) profileFields.status = status;
   if (githubusername) profileFields.githubusername = githubusername;
   if (skills) {
-    profileFields.skills = skills.split(',').map(skill => skill.trim());
-  }
+        profileFields.skills = skills;
+        Array.isArray(skills) ? skills : skills.split(',').map((skill) => skill.trim());
+    }
 
   // Build social object
   profileFields.social = {};
@@ -351,16 +352,16 @@ router.delete('/education/:exp_id', auth, async (req, res) => {
 
 router.get('/github/:username', (req, res) => {
   try {
+    console.log(req.params.username)
     const options = {
-      uri: `https://api.github.com/users/
-        ${req.params.username}
-        /repos?per_page=5&sort=created:asc&cliend_id=&{
-        config.get('githubClientId')}&client_secret=
-        ${config.get('githubSecret')}`,
+      uri: `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc&client_id=${
+        config.get('githubClientId')}&client_secret=${config.get('githubSecret')}`,
         method: 'GET',
         headers: { 'user-agent': 'node.js'},
     };
+    console.log(options)
     request(options, (error, response, body) => {
+
       if (error) console.error(error);
 
       if(response.statusCode !== 200) {

@@ -62,6 +62,7 @@ const EditProfile = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = e => {
+    console.log("SUBMIT")
     e.preventDefault();
     createProfile(formData, history, true);
   };
@@ -250,6 +251,7 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
-  withRouter(EditProfile)
-);
+export default connect(
+  mapStateToProps, 
+  { createProfile, getCurrentProfile }
+  )(withRouter(EditProfile));
