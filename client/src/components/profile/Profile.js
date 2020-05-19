@@ -1,11 +1,14 @@
-import React, { Fragment, useEffect } from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import Spinner from '../layouts/Spinner'
-import ProfileTop from './ProfileTop'
-import ProfileAbout from './ProfileAbout'
-import { getProfileById } from '../../actions/profile'
+import React, { Fragment, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Spinner from '../layouts/Spinner';
+import ProfileTop from './ProfileTop';
+import ProfileAbout from './ProfileAbout';
+import ProfileExperience from './ProfileExperience';
+import ProfileEducation from './ProfileEducation';
+import ProfileGithub from './ProfileGithub.js';
+import { getProfileById } from '../../actions/profile';
 
 const Profile = ({
     getProfileById,
@@ -21,8 +24,10 @@ const Profile = ({
     return (
         <Fragment>
             {profile === null || loading ? ( 
-            <Spinner /> ) : ( <Fragment> 
-                <Link to='/profile' className='btn btn-light'>
+            <Spinner /> 
+            ) : ( 
+                <Fragment> 
+                <Link to='/profiles' className='btn btn-light'>
                     Back to Profiles
                 </Link>
                 {auth.isAuthenticated && auth.loading === false && auth.user._id === 
@@ -33,6 +38,25 @@ const Profile = ({
                 <div className="profile-grid my-1">
                     <ProfileTop profile={profile}/>
                     <ProfileAbout profile={profile}/>
+                    <div className="profile-exp bg-white p-2">
+                        <h2 className="text-primary">Experience</h2>
+                        {profile.experience.length > 0 ? (<Fragment>
+                            {profile.experience.map(experience => (
+                                <ProfileExperience key={experience.id} experience={experience} />
+                            ))}
+                            </Fragment> ) : (<Fragment><h4>No Experience Credentials</h4></Fragment>)}                        
+                    </div>
+                    <div className="profile-edu bg-white p-2">
+                        <h2 className="text-primary">Education</h2>
+                        {profile.education.length > 0 ? (<Fragment>
+                            {profile.education.map(education => (
+                                <ProfileEducation key={education.id} education={education} />
+                            ))}
+                            </Fragment> ) : (<Fragment><h4>No Education Credentials</h4></Fragment>)}                       
+                    </div>
+                    {profile.githubusername && (
+                        <ProfileGithub username={profile.githubusername} />
+                    )}
                 </div>
                 </Fragment> 
                 )}
