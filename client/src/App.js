@@ -5,6 +5,7 @@ import Landing from './components/layouts/Landing';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Alert from './components/layouts/Alert';
+import Posts from './components/posts/Posts';
 import Dashboard from './components/dashboard/Dashboard';
 import CreateProfile from './components/profile-forms/CreateProfile';
 import EditProfile from './components/profile-forms/EditProfile';
@@ -50,6 +51,7 @@ const App = () => {
           <PrivateRoute exact path='/edit-profile' component={EditProfile}/>
           <PrivateRoute exact path='/add-experience' component={AddExperience}/>
           <PrivateRoute exact path='/add-education' component={AddEducation}/>
+          <PrivateRoute exact path='/posts' component={Posts} />
         </Switch>
       </section>
     </Fragment>
