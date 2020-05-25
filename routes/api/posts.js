@@ -3,8 +3,9 @@ const router = express.Router();
 const { check, validationResult} = require('express-validator');
 const auth = require('../../middleware/auth');
 const Post = require('../../models/Post');
-const Profile = require('../../models/Profile');
+// const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+
 
 
 // @route   POST api/posts
@@ -48,8 +49,11 @@ router.post('/', [auth,
 // @desc     Get all posts
 // @access   Private
 router.get('/', auth, async (req, res) => {
+  console.log('get Post api', Post)
   try {
     const posts = await Post.find().sort({ date: -1 });
+    
+  console.log("get posts", posts)
     res.json(posts);
   } catch (err) {
     console.error(err.message);

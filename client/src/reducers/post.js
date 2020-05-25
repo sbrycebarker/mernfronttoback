@@ -11,7 +11,7 @@ const initialState = {
 }
 
 export default function(state = initialState, action) {
-    const {type, payload } = action;
+    const { type, payload } = action;
 
     switch (type) {
         case GET_POSTS:
@@ -23,7 +23,7 @@ export default function(state = initialState, action) {
         case POST_ERROR:
             return {
                 ...state,
-                post: payload,
+                error: payload,
                 loading: false
             }
         default:
