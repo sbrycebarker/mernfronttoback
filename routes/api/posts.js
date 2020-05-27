@@ -5,6 +5,7 @@ const auth = require('../../middleware/auth');
 const Post = require('../../models/Post');
 // const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+// const checkObjectId = require('../../middleware/checkObjectId');
 
 
 
@@ -20,14 +21,14 @@ router.post('/', [auth,
   ]
 ],
   async (req, res) => {
+    console.log('running api/posts')
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
-      if (!errors.isEmpty()) {
         return  res.status(400).json({ errors: errors.array() })
-      }
+    }
       try {
         const user = await User.findById(req.user.id).select('-password');
-
+        console.log(user, "posted")
         const newPost = new Post({
           text: req.body.text,
           name: user.name,
@@ -36,13 +37,12 @@ router.post('/', [auth,
         });
 
         const post = await newPost.save();
-
+        console.log(post)
         res.json(post);
       } catch(err) {
         console.log(err.message);
         res.status(500).send('Server Error');
       }
-    }
 });
 
 // @route    GET api/posts
@@ -53,7 +53,6 @@ router.get('/', auth, async (req, res) => {
   try {
     const posts = await Post.find().sort({ date: -1 });
     
-  console.log("get posts", posts)
     res.json(posts);
   } catch (err) {
     console.error(err.message);
@@ -88,22 +87,19 @@ router.get('/:id', auth, async(req, res) => {
 router.delete('/:id', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    if(!post) {
-      return res.status(404).json({msg: 'Post not found'})
-    }
-    //  Check user
-    if(post.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'User not authorized'})
+    console.log("deleting", post)
+
+    // Check user
+    if (post.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' });
     }
 
     await post.remove();
 
-    res.json({msg: 'Post removed'});
+    res.json({ msg: 'Post removed' });
   } catch (err) {
-    if(err.kind === 'ObjectId') {
-      return res.status(404).json({msg: 'Post not found'})
-    }
     console.error(err.message);
+
     res.status(500).send('Server Error');
   }
 });
@@ -136,7 +132,7 @@ router.put('/like/:id', auth, async (req, res) => {
 // @desc    Unlike a post
 // @access  Private
 
-router.put('/like/:id', auth, async (req, res) => {
+router.put('/unlike/:id', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
 
