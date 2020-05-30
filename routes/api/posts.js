@@ -13,7 +13,8 @@ const User = require('../../models/User');
 // @desc    Create a post
 // @access  Private
 
-router.post('/', [auth,
+router.post('/', [
+  auth,
   [
   check('text', 'text is required')
     .not()
@@ -21,7 +22,7 @@ router.post('/', [auth,
   ]
 ],
   async (req, res) => {
-    console.log('running api/posts')
+    // console.log('running api/posts')
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
         return  res.status(400).json({ errors: errors.array() })
@@ -159,16 +160,17 @@ router.put('/unlike/:id', auth, async (req, res) => {
 // @desc    Comment on post
 // @access  Private
 
-router.post('/comment/:id', [auth,
+router.post('/comment/:id', [
+  auth,
   [
-  check('text', 'text is required')
+    check('text', 'text is required')
     .not()
     .isEmpty()
   ]
 ],
   async (req, res) => {
+  
     const errors = validationResult(req);
-    if(!errors.isEmpty()) {
       if (!errors.isEmpty()) {
         return  res.status(400).json({ errors: errors.array() })
       }
@@ -183,7 +185,10 @@ router.post('/comment/:id', [auth,
           user: req.user.id
         });
 
-        post.comments.unshif(newComment);
+
+        post.comments.unshift(newComment);
+
+        // console.log(res)
 
         await post.save()
 
@@ -193,7 +198,7 @@ router.post('/comment/:id', [auth,
         res.status(500).send('Server Error');
       }
     }
-});
+);
 
 // @route   DELETE api/posts/comment/:id/:comment_id
 // @desc    Delete comment
