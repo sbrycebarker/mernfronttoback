@@ -20,7 +20,7 @@ const CreateProfile = ({createProfile, history}) => {
         instagram: ''
     });
 
-    const [ displaySocialInputs,toggleSocialInputs] = useState(false);
+    const [ displaySocialInputs, toggleSocialInputs ] = useState(false);
 
     const {
         company,
@@ -96,7 +96,7 @@ const CreateProfile = ({createProfile, history}) => {
           onChange={e => onChange(e)} />
           <small className="form-text">
             Please use comma separated values (eg.
-            HTML,CSS,JavaScript,PHP)
+            HTML, CSS, JavaScript, PHP)
           </small>
         </div>
         <div className="form-group">

@@ -11,6 +11,7 @@ const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 const Post = require('../../models/Post');
 
+
 // @route    GET api/profile/me
 // @desc     Get current users profile
 // @access   Private
@@ -32,7 +33,7 @@ router.get('/me', auth, async (req, res) => {
   }
 });
 
-// @route   Post api/profile
+// @route   POST api/profile
 // @desc    Create | Update user profile
 // @access  Private
 
@@ -75,17 +76,17 @@ async (req, res) => {
   };
 
 
-  profileFields.user = req.user.id;
-  if (company) profileFields.company = company;
-  if (website) profileFields.website = website;
-  if (location) profileFields.location = location;
-  if (bio) profileFields.bio = bio;
-  if (status) profileFields.status = status;
-  if (githubusername) profileFields.githubusername = githubusername;
-  if (skills) {
-        profileFields.skills = skills;
-        Array.isArray(skills) ? skills : skills.split(',').map((skill) => skill.trim());
-    }
+  // profileFields.user = req.user.id;
+  // if (company) profileFields.company = company;
+  // if (website) profileFields.website = website;
+  // if (location) profileFields.location = location;
+  // if (bio) profileFields.bio = bio;
+  // if (status) profileFields.status = status;
+  // if (githubusername) profileFields.githubusername = githubusername;
+  // if (skills) {
+  //       profileFields.skills = skills;
+  //       Array.isArray(skills) ? skills : skills.split(',').map((skill) => ' ' + skill.trim());
+  //   }
 
   // Build social object
   profileFields.social = {};
@@ -142,7 +143,9 @@ router.get('/', async (req, res) => {
 router.get('/user/:user_id', async (req, res) => {
   console.log("running api/profile/user/:user_id")
   try {
-    const profile = await Profile.findOne({ user: req.params.user_id }).populate('user', ['name','avatar']);
+    const profile = await Profile.findOne({ 
+      user: req.params.user_id 
+    }).populate('user', ['name','avatar']);
 
     if(!profile) return res.status(400).json({msg: 'Profile not found'})
 
