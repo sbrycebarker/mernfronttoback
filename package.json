@@ -30,7 +30,7 @@
     "mongoose": "^5.7.0",
     "normalize-url": "^5.0.0",
     "request": "^2.88.0",
-    "yarn": "^1.19.0"
+    "yarn": "^1.22.0"
   },
   "devDependencies": {
     "concurrently": "^4.1.2",
