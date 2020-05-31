@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Serge Social Network",
   "main": "server.js",
+  "engines": {
+    "node": "12.13.1"
+  },
   "scripts": {
     "start": "node server",
     "server": "nodemon server",
