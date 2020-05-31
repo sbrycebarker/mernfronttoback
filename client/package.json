@@ -15,9 +15,6 @@
     "redux-thunk": "^2.3.0",
     "uuid": "^3.3.3"
   },
-  "devDependencies": {
-    "react-scripts": "3.1.2"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
