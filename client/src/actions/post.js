@@ -1,4 +1,5 @@
 import axios from 'axios';
+import api from '../utils/api.js'
 import { setAlert } from './alert';
 import {
     GET_POSTS,
@@ -171,7 +172,7 @@ export const deleteComment = (postId, commentId) => async dispatch => {
 
     try {
         
-        const res = await axios.delete(`/api/posts/${postId}/${commentId}`);
+        await api.delete(`/api/posts/${postId}/${commentId}`);
 
         dispatch({
             type: REMOVE_COMMENT,
