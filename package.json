@@ -6,9 +6,6 @@
   "engines": {
     "node": "12.13.1"
   },
-  "devDependencies": {
-    "react-scripts": "3.1.2"
-  },
   "scripts": {
     "start": "node server",
     "server": "nodemon server",
@@ -27,6 +24,7 @@
   },
   "homepage": "https://github.com/sbrycebarker/mernfronttoback#readme",
   "dependencies": {
+    "react-scripts": "3.1.2",
     "bcryptjs": "^2.4.3",
     "config": "^3.2.2",
     "express": "^4.17.1",
