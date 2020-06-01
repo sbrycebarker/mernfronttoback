@@ -10,7 +10,7 @@ connectDB();
 // Init Middleware
 // app.use(express.json({extended: false}));
 
-app.get('/', (req, res) => res.send('Well, hello there!'));
+// app.get('/', (req, res) => res.send('Well, hello there!'));
 
 app.use('/api/posts', require('./routes/api/posts'));
 app.use('/api/users', require('./routes/api/users'));
@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'production') {
     // Set static folder
     app.use(express.static('client/build'))
 
-    app.get('*', (req, res) => {
+    app.get('/', (req, res) => {
         res.sendFile(path.resolve(_dirname, 'client, build, index.html'))
     })
 }
