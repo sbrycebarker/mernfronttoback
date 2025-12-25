@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const config = require('config');
-const db = config.get('mongoURI');
+
+// Use environment variable in production, config file in development
+const db = process.env.MONGO_URI || config.get('mongoURI');
 
 const connectDB = async () => {
     try {
