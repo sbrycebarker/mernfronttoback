@@ -1,1 +1,26 @@
 node_modules
+client/node_modules
+
+# Environment variables
+.env
+client/.env
+
+# Config files with secrets
+config/default.json
+config/production.json
+
+# Build files
+client/build
+build
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode
+.idea
